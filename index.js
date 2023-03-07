@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -50,6 +50,17 @@ app.get("/products", async (req, res) => {
     console.error(error);
   }
 });
+app.get("/product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const product = await productCollection.findOne(query);
+    res.send(product);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // feedback api
 app.get("/feedbacks", async (req, res) => {
   try {
