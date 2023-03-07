@@ -29,6 +29,7 @@ dbConnect();
 
 // database and collection create
 const productCollection = client.db("green_plant").collection("products");
+const feedbackCollection = client.db("green_plant").collection("feedbacks");
 
 // root api
 app.get("/", (req, res) => {
@@ -41,12 +42,20 @@ app.get("/", (req, res) => {
 
 // product api
 app.get("/products", async (req, res) => {
-  console.log("product");
   try {
     const query = {};
     const products = await productCollection.find(query).toArray();
     res.send(products);
-    console.log(products);
+  } catch (error) {
+    console.error(error);
+  }
+});
+// feedback api
+app.get("/feedbacks", async (req, res) => {
+  try {
+    const query = {};
+    const feedbacks = await feedbackCollection.find(query).toArray();
+    res.send(feedbacks);
   } catch (error) {
     console.error(error);
   }
